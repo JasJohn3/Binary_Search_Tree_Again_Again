@@ -168,10 +168,18 @@ private:
 				delete successor;
 			}
 			//Node with one child
-			if (node->left == nullptr || node->right == nullptr)
+			if (node->right == nullptr )
 			{
-				NODE<Type>* temp = node->right;
-				node->Parent = node;
+				NODE<Type> * temp = node;
+				node->left->Parent = node->Parent;
+				node->Parent->left = node->left;
+				delete node;
+			}
+			if (node->left == nullptr)
+			{
+				NODE<Type> * temp = node;
+				node->right->Parent = node->Parent;
+				node->Parent->right = node->right;
 				delete node;
 			}
 			//no children

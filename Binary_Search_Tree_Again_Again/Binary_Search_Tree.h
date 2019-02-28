@@ -151,31 +151,35 @@ private:
 
 		if (K<node->Key)
 		{
-			node->left = Delete_Node(K, node->left);
+			/*node->left = */Delete_Node(K, node->left);
 		}
 		else if (K>node->Key)
 		{
-			Delete_Node(K, node->right);
-		}
-		else if (node->left != nullptr && node->right != nullptr)
-		{
-			//find the minimum and swap the value of node with the value of minimum
-			node->Key = Minimum(node->right)->Key;
-			//perform recursive delete
-			Delete_Node(node->Key, node->right);
-		}
-		else if (node == root)
-		{
-			NODE<Type> * Delete_root = root;	
-			node->Key = Minimum(node->right)->Key;
-			root = node;
-			delete Delete_root;
+			/*node->right =*/Delete_Node(K, node->right);
 		}
 		else
 		{
-			NODE<Type> * Delete_Node = node;
-			node = (node->left != nullptr)? node->left:node->right;
-				delete Delete_Node;
+			//Two Children
+			if (node->left != nullptr && node->right != nullptr)
+			{
+				//create a successor Node that stores the minimum value of the tree
+				NODE<Type>*successor = Minimum(node->right);
+				node->Key = successor->Key;
+				delete successor;
+			}
+			//Node with one child
+			if (node->left == nullptr || node->right == nullptr)
+			{
+				NODE<Type>* temp = node->right;
+				node->Parent = node;
+				delete node;
+			}
+			//no children
+			if (node->left==nullptr && node->right == nullptr)
+			{
+				node->Parent = nullptr;
+				delete node;
+			}
 		}
 		//if value does not exist, return.
 		return;
@@ -214,3 +218,23 @@ private:
 
 #endif // !BST_H
 
+/*		else if (node->left != nullptr && node->right != nullptr)
+		{
+			//find the minimum and swap the value of node with the value of minimum
+			node->Key = Minimum(node->right)->Key;
+			//perform recursive delete
+			Delete_Node(node->Key, node->right);
+		}
+		else if (node == root)
+		{
+			NODE<Type> * Delete_root = root;	
+			node->Key = Minimum(node->right)->Key;
+			root = node;
+			delete Delete_root;
+		}
+		else
+		{
+			NODE<Type> * Delete_Node = node;
+			node = (node->left != nullptr)? node->left:node->right;
+				delete Delete_Node;
+		}*/

@@ -95,33 +95,43 @@ private:
 		}
 		else if (K < node->Key)
 		{
+			//all functions must be performed in order
+			//create a temporary variable left_child to assign the value of node to maintain pointer integrity
 			NODE<Type>* left_child = insert(K, node->left);
+			//set the value of node-> left to the value of the temporary variable left_child
 			node->left = left_child;
+			//set the left child to the value of node connecting the parent
 			left_child->Parent = node;
+			//this is a test function that informs the user of a successful connection of the Parent value
 			if (node->Parent != nullptr)
 			{
 				std::cout << "Parent: " << node->Parent->Key << std::endl;
 			}
+			//return the node value after all functions are complete
 			return node;
 		}
 		else if (K > node->Key)
 		{
-			//recursive call moving right
+			//all functions must be performed in order
+			//create a temporary variable right_child to assign the value of node to maintain pointer integrity
 			NODE<Type>* right_child = insert(K, node->right);
-			//
+			//set the value of node->right to the value of the temporary variable right_child
 			node->right = right_child;
+			//set the right child to the value of node connecting the parent
 			right_child->Parent = node;
-
+			//this is a test function that informs the user of a successful connection of the Parent value
 			if (node->Parent != nullptr)
 			{
 				std::cout << "Parent: " << node->Parent->Key << std::endl;
 			}
+			//return the node value after all functions are complete
 			return node;
 		}
 
 	}
 	NODE<Type>* Minimum(NODE<Type>*node)
 	{
+		//move left to locate the minimum value of the tree
 		if (node->left == nullptr)
 		{
 			return node;
@@ -162,33 +172,48 @@ private:
 			//Two Children
 			if (node->left != nullptr && node->right != nullptr)
 			{
-				//create a successor Node that stores the minimum value of the tree
+				//create a successor Node that stores the minimum value of the tree as a copy
 				NODE<Type>*successor = Minimum(node->right);
+				//this function tests whether the node has a remaining left or right node tree and assigns a nullptr value to the previous nodes children that the node is being deleted from
 				successor->Key > successor->Parent->Key ? successor->Parent->right = nullptr : successor->Parent->left = nullptr;
+				//this function reassigns the key value of the minimum node to the node being replaced
+				//this maintains the integrity of the tree and prevents the need to reassign pointer values of the node
 				node->Key = successor->Key;
+				//finally, we delete the successor node that is storing the minimum value
 				delete successor;
 			}
 			//Node with one child
+			//condition one performs a double check to verify that there is a nullptr for right and the the left is not a null value
 			else if (node->right == nullptr && node->left!= nullptr)
 			{
-				
+				//These next two operations can be performed in any order
+				//This line assigns the child of the node to be deleted to the nodes parent
 				node->left->Parent = node->Parent;
+				//this line assigns the nodes parent as the left child
 				node->Parent->left = node->left;
+				//delete the node after all ptr values are reassigned
 				delete node;
 			}
+			//condition one performs a double check to verify that there is a nullptr for left and the the right is not a null value
 			else if (node->left == nullptr && node->right != nullptr)
 			{
-				
+				//These next two operations can be performed in any order
+				//this line assigns the nodes parent as the right child
 				node->Parent->right = node->right;
+				//This line assigns the child of the node to be deleted to the nodes parent
 				node->right->Parent = node->Parent;
-				
+				//delete the node after all ptr values are reassigned
 				delete node;
 			}
 			//no children
 			else if (node->left==nullptr && node->right == nullptr)
 			{
+				//these functions must be performed in this order
+				//this function tests whether the node has a remaining left or right node tree and assigns a nullptr value to the parents children
 				node->Key > node->Parent->Key ? node->Parent->right = nullptr : node->Parent->left = nullptr;
+				//after the nodes parents children have been assigned their nullptr values, assign a nullptr value to the nodes parent
 				node->Parent = nullptr;
+				//the node is ready for deletion
 				delete node;
 			}
 		}

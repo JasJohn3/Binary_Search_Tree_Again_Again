@@ -13,6 +13,7 @@ int main() {
 	system("pause");
 	BST.insert(4);
 	system("pause");
+	BST.insert(6);
 	BST.insert(3);
 	BST.insert(2);
 	BST.insert(1);
@@ -29,6 +30,9 @@ int main() {
 	BST.inorder();
 	system("pause");
 	BST.Delete_Node(1);
+	BST.inorder();
+	BST.Delete_Node(5);
+	system("pause");
 	BST.inorder();
 	system("pause");
 	return 0;

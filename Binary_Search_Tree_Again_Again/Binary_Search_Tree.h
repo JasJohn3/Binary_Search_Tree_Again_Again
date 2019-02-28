@@ -151,11 +151,11 @@ private:
 
 		if (K<node->Key)
 		{
-			/*node->left = */Delete_Node(K, node->left);
+			Delete_Node(K, node->left);
 		}
 		else if (K>node->Key)
 		{
-			/*node->right =*/Delete_Node(K, node->right);
+			Delete_Node(K, node->right);
 		}
 		else
 		{
@@ -164,27 +164,30 @@ private:
 			{
 				//create a successor Node that stores the minimum value of the tree
 				NODE<Type>*successor = Minimum(node->right);
+				successor->Key > successor->Parent->Key ? successor->Parent->right = nullptr : successor->Parent->left = nullptr;
 				node->Key = successor->Key;
 				delete successor;
 			}
 			//Node with one child
-			if (node->right == nullptr )
+			else if (node->right == nullptr && node->left!= nullptr)
 			{
-				NODE<Type> * temp = node;
+				
 				node->left->Parent = node->Parent;
 				node->Parent->left = node->left;
 				delete node;
 			}
-			if (node->left == nullptr)
+			else if (node->left == nullptr && node->right != nullptr)
 			{
-				NODE<Type> * temp = node;
-				node->right->Parent = node->Parent;
+				
 				node->Parent->right = node->right;
+				node->right->Parent = node->Parent;
+				
 				delete node;
 			}
 			//no children
-			if (node->left==nullptr && node->right == nullptr)
+			else if (node->left==nullptr && node->right == nullptr)
 			{
+				node->Key > node->Parent->Key ? node->Parent->right = nullptr : node->Parent->left = nullptr;
 				node->Parent = nullptr;
 				delete node;
 			}
@@ -246,3 +249,4 @@ private:
 			node = (node->left != nullptr)? node->left:node->right;
 				delete Delete_Node;
 		}*/
+		/*NODE<Type> * temp = node;*/

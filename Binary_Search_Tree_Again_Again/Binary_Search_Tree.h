@@ -6,9 +6,9 @@ template<typename Type>
 struct NODE
 {
 	Type Key;
-	NODE* left;
+	NODE * left;
 	NODE * right;
-	NODE* Parent; //will implement if time allows
+	NODE * Parent; //will implement if time allows
 	//constructor of the Node maybe called within the recursive insert functions to pass values into the Binary Search Tree
 	/*NODE(const Type & K, NODE*left_child, NODE*right_child) :Key{ K }, left{ left_child }, right{ right_child }
 	{}*/
@@ -26,15 +26,21 @@ class BST
 public:
 	BST()
 	{
-
+		root == nullptr;
 	}
+	//public call for inorder private method
 	void inorder()
 	{
 
 		inorder(root);
 
 	}
-
+	//public call for private Delete Method
+	void Delete_Node(Type K)
+	{
+		Delete_Node(K, root);
+	}
+	//public call for private insert.  This creates the first NODE int the tree and establishes root.
 	NODE<Type> * insert(Type K)
 	{
 		//first insertion operation, setting root value on first insertion call
@@ -77,10 +83,7 @@ public:
 		return Value;
 	}
 
-	void Delete_Node(Type K)
-	{
-		Delete_Node(K, root);
-	}
+
 	~BST()
 	{
 		Delete_Tree(root);

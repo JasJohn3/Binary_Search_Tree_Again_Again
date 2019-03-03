@@ -68,6 +68,14 @@ public:
 		
 		
 	}
+	//recursive call to Maximum private function.  Instert root as node.  Allows user public access to private method.
+	NODE<Type>* Maximum()
+	{
+		//store the Node as a temp variable.
+		NODE<Type> * Value = Maximum(root);
+		std::cout<<"Maximum Value: "<< Value->Key <<std::endl;
+		return Value;
+	}
 
 	void Delete_Node(Type K)
 	{
@@ -143,8 +151,9 @@ private:
 		return Minimum(node->left);
 
 	}
-	NODE<Type>* Maximum(NODE<Type>*node)
-	{
+	NODE<Type> * Maximum(NODE<Type>* node)
+	{	
+		//move right to locate the minimum value of the tree
 		if (node->right == nullptr)
 		{
 			return node;
@@ -153,7 +162,7 @@ private:
 		{
 			return nullptr;
 		}
-		return Maxmimum(node->right);
+		return Maximum(node->right);
 	}
 
 	void Delete_Node(Type K, NODE<Type>* node)
@@ -169,6 +178,20 @@ private:
 		}
 		else
 		{
+			//if the root Node is the only node in the list
+			if (node == root && node->left== nullptr && node->right == nullptr)
+			{
+
+				//this is an error handling function
+				//when deleting the final node, the program crashes. 
+				//Instead, the program will now exit and inform the user of the exit.
+				root = nullptr;
+				delete node;
+				system("cls");
+				std::cout << "\n\nAll Nodes in the tree have been deleted.  The program will now exit.\n\n" << std::endl;
+				system("pause");
+				exit(0);
+			}
 			//Two Children
 			if (node->left != nullptr && node->right != nullptr)
 			{
